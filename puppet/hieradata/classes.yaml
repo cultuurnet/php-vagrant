@@ -1,0 +1,18 @@
+---
+classes:
+  - apt
+  - ntp
+  - sudo
+  - cultuurnet
+  - cultuurnet::cron
+  - cultuurnet::file
+  - php
+  - php::cli
+  - php::extension::curl
+  - php::extension::gd
+  - php::extension::intl
+  - php::extension::mysql
+  - php::extension::tidy
+  - php::extension::xdebug
+  - cacert
+  - mailcatcher

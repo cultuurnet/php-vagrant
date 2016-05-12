@@ -1,0 +1,71 @@
+---
+ntp::servers:
+  - 'time.belnet.be'
+  - 'ntp.oma.be'
+ntp::restrict:
+  - 'default ignore'
+  - '-6 default ignore'
+  - '127.0.0.1'
+  - '-6 ::1'
+  - 'romulus.belnet.be nomodify notrap nopeer noquery'
+  - 'daedalus.belnet.be nomodify notrap nopeer noquery'
+  - 'ntp.oma.be nomodify notrap nopeer noquery'
+
+ssh::permit_root_login: 'without-password'
+
+unix_users:
+  vagrant:
+    ensure: present
+    home: '/home/vagrant'
+    purge_ssh_keys: false
+
+sudo::configs:
+  'vagrant':
+    content: 'vagrant ALL=(ALL) NOPASSWD: ALL'
+    priority: '10'
+
+apt::sources:
+  'ondrej-php5-5_6-trusty':
+    location: 'http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu'
+    release: 'trusty'
+    repos: 'main'
+    key:
+      id: '14AA40EC0831756756D7F66C4F4EA0AAE5267A6C'
+    include:
+      deb: true
+      src: false
+  'cultuurnet-tools':
+    location: 'http://apt.uitdatabank.be/tools-development'
+    release: 'trusty'
+    repos: 'main'
+    key:
+      id: '2380EA3E50D3776DFC1B03359F4935C80DC9EA95'
+      source: 'http://apt.uitdatabank.be/gpgkey/cultuurnet.gpg.key'
+    include:
+      deb: true
+      src: false
+
+mailcatcher::manage_repo: false
+mailcatcher::smtp_ip: '127.0.0.1'
+mailcatcher::smtp_port: '25'
+
+php::extension::xdebug::settings:
+  - 'set ".anon/extension" "xdebug.so"'
+  - 'set ".anon/xdebug.remote_enable" "1"'
+  - 'set ".anon/xdebug.remote_handler" "dbgp"'
+  - 'set ".anon/xdebug.remote_mode" "req"'
+  - 'set ".anon/xdebug.remote_host" "127.0.0.1"'
+  - 'set ".anon/xdebug.remote_port" "9000"'
+
+resources:
+  package:
+    'composer':
+     ensure: 'latest'
+  php::cli::config:
+    'cli_sendmail_path':
+      section: 'mail function'
+      setting: 'sendmail_path'
+      value: '/usr/bin/env catchmail --smtp-port 25'
+      require:
+        - 'Class[Php]'
+        - 'Class[Php::Cli]'
