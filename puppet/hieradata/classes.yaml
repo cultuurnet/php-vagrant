@@ -6,13 +6,7 @@ classes:
   - cultuurnet
   - cultuurnet::cron
   - cultuurnet::file
+  - php::globals
   - php
-  - php::cli
-  - php::extension::curl
-  - php::extension::gd
-  - php::extension::intl
-  - php::extension::mysql
-  - php::extension::tidy
-  - php::extension::xdebug
   - cacert
   - mailcatcher

@@ -14,6 +14,10 @@ mod 'thias-sysctl', '1.0.2'
 mod 'puppetlabs-inifile', '1.4.2'
 
 # Modules from GitHub
+mod 'mayflower-php',
+  :git => 'git://github.com/willaerk/puppet-php.git',
+  :ref => '22fddde'
+
 mod 'rodjek-logrotate',
   :git => 'git://github.com/rodjek/puppet-logrotate.git',
   :ref => '89ee645'
@@ -49,10 +53,6 @@ mod 'puppetlabs-git',
 mod 'puppet-icinga2',
   :git => 'git://github.com/icinga/puppet-icinga2.git',
   :ref => '2f37544'
-
-mod 'nodes-php',
-  :git => 'git://github.com/jippi/puppet-php.git',
-  :ref => 'cb1aac2'
 
 mod 'cultuurnet-cultuurnet',
   :git => 'git://github.com/cultuurnet/puppet-cultuurnet.git',

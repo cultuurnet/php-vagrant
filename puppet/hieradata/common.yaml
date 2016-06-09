@@ -49,23 +49,30 @@ mailcatcher::manage_repo: false
 mailcatcher::smtp_ip: '127.0.0.1'
 mailcatcher::smtp_port: '25'
 
-php::extension::xdebug::settings:
-  - 'set ".anon/extension" "xdebug.so"'
-  - 'set ".anon/xdebug.remote_enable" "1"'
-  - 'set ".anon/xdebug.remote_handler" "dbgp"'
-  - 'set ".anon/xdebug.remote_mode" "req"'
-  - 'set ".anon/xdebug.remote_host" "127.0.0.1"'
-  - 'set ".anon/xdebug.remote_port" "9000"'
+php::manage_repos: false
+php::fpm: false
+php::apache: false
+php::dev: false
+php::composer: false
+php::pear: false
+php::extensions:
+  curl: {}
+  gd: {}
+  intl: {}
+  mysql: {}
+  tidy: {}
+  xdebug:
+    settings:
+      'zend_extension': 'xdebug.so'
+      'xdebug.remote_enable': '1'
+      'xdebug.remote_handler': 'dbgp'
+      'xdebug.remote_mode': 'req'
+      'xdebug.remote_host': '127.0.0.1'
+      'xdebug.remote_port': '9000'
+php::settings:
+  'mail function/sendmail_path': '/usr/bin/env catchmail --smtp-port 25'
 
 resources:
   package:
     'composer':
      ensure: 'latest'
-  php::cli::config:
-    'cli_sendmail_path':
-      section: 'mail function'
-      setting: 'sendmail_path'
-      value: '/usr/bin/env catchmail --smtp-port 25'
-      require:
-        - 'Class[Php]'
-        - 'Class[Php::Cli]'
