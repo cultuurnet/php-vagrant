@@ -15,7 +15,7 @@ ssh::permit_root_login: 'without-password'
 
 unix_users:
   vagrant:
-    ensure: present
+    ensure: 'present'
     home: '/home/vagrant'
     purge_ssh_keys: false
 
@@ -25,8 +25,8 @@ sudo::configs:
     priority: '10'
 
 apt::sources:
-  'ondrej-php5-5_6-trusty':
-    location: 'http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu'
+  'ondrej-php-trusty':
+    location: 'http://ppa.launchpad.net/ondrej/php/ubuntu'
     release: 'trusty'
     repos: 'main'
     key:
@@ -45,34 +45,76 @@ apt::sources:
       deb: true
       src: false
 
-mailcatcher::manage_repo: false
-mailcatcher::smtp_ip: '127.0.0.1'
-mailcatcher::smtp_port: '25'
+apache::mpm_module: 'prefork'
+apache::default_vhost: false
+
+apache::vhosts::vhosts:
+  'example_80':
+    servername: 'example.dev'
+    port: '80'
+    docroot: '/var/www/sites/example.dev'
+    directories:
+      - path: '/var/www/sites/example.dev'
+        options:
+          - 'Indexes'
+          - 'FollowSymLinks'
+          - 'MultiViews'
+          - 'ExecCGI'
+        allow_override:
+          - 'All'
+
+apache::mod::php::package_name: 'libapache2-mod-php7.1'
+apache::mod::php::php_version: '7.1'
+
+php::globals::php_version: '7.1'
+php::globals::config_root: '/etc/php/7.1'
 
 php::manage_repos: false
+php::ext_tool_enable: '/usr/sbin/phpenmod -v 7.1'
+php::ext_tool_query: '/usr/sbin/phpquery -v 7.1'
+php::package_prefix: 'php7.1-'
+php::apache_config: true
 php::fpm: false
-php::apache: false
 php::dev: false
 php::composer: false
 php::pear: false
 php::extensions:
+  bcmath: {}
   curl: {}
   gd: {}
   intl: {}
-  mysql: {}
+  mbstring: {}
+  mcrypt: {}
+  mysql:
+    so_name: 'mysqlnd'
+  redis:
+    package_prefix: 'php-'
+  sqlite3: {}
   tidy: {}
+  xml: {}
   xdebug:
+    package_prefix: 'php-'
     settings:
       'zend_extension': 'xdebug.so'
       'xdebug.remote_enable': '1'
       'xdebug.remote_handler': 'dbgp'
       'xdebug.remote_mode': 'req'
-      'xdebug.remote_host': '127.0.0.1'
+      'xdebug.remote_host': '10.0.2.2'
       'xdebug.remote_port': '9000'
+  zip: {}
 php::settings:
+  'PHP/upload_max_filesize': '12M'
+  'PHP/post_max_size': '16M'
   'mail function/sendmail_path': '/usr/bin/env catchmail --smtp-port 25'
 
+mailcatcher::manage_repo: false
+mailcatcher::smtp_ip: '127.0.0.1'
+mailcatcher::smtp_port: '25'
+
 resources:
+  file:
+    '/var/www/sites':
+      ensure: 'directory'
   package:
     'composer':
      ensure: 'latest'

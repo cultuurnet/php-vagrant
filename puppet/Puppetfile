@@ -5,6 +5,7 @@ forge "https://forge.puppetlabs.com"
 # Modules from the Puppet Forge
 mod 'puppetlabs-stdlib', '4.6.0'
 mod 'puppetlabs-apt', '2.1.0'
+mod 'puppetlabs-apache', '1.11.0'
 mod 'ghoneycutt-common', '1.2.1'
 mod 'puppetlabs-ntp', '4.0.0'
 mod 'ghoneycutt-ssh', '3.24.0'
@@ -56,7 +57,7 @@ mod 'puppet-icinga2',
 
 mod 'cultuurnet-cultuurnet',
   :git => 'git://github.com/cultuurnet/puppet-cultuurnet.git',
-  :ref => 'd8c5da0'
+  :ref => '6828875'
 
 mod 'cultuurnet-cacert',
   :git => 'git://github.com/cultuurnet/puppet-cacert.git',
