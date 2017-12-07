@@ -2,6 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
 
   config.librarian_puppet.puppetfile_dir = "puppet"
   config.librarian_puppet.use_v1_api  = '0'
@@ -15,6 +20,9 @@ Vagrant.configure(2) do |config|
   config.cache.enable :apt
 
   config.vm.network "private_network", ip: "192.168.144.120", lxc__bridge_name: 'lxcbr1'
+
+  config.vm.hostname = "php.dev"
+  config.hostmanager.aliases = %w(tc.dev)
 
   config.vm.network "forwarded_port", guest: 1080, host: 1080
   config.vm.network "forwarded_port", guest: 9000, host: 9000
