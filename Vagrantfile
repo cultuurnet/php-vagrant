@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 1080, host: 1080
   config.vm.network "forwarded_port", guest: 9000, host: 9000
 
-  config.vm.synced_folder "source", "/home/vagrant/source", type: "nfs", create: true
+  config.vm.synced_folder "source", "/var/www/sites", type: "nfs", create: true
 
   config.vm.provision "fix-no-tty", type: "shell" do |shell|
     shell.privileged = false
