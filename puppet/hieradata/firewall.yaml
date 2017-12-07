@@ -20,6 +20,10 @@ firewall:
     action: 'accept'
     dport: '22'
     proto:  'tcp'
+  '200 allow HTTP access':
+    action: 'accept'
+    dport: '80'
+    proto:  'tcp'
   '200 allow Mailcatcher web interface access':
     action: 'accept'
     dport:   1080
